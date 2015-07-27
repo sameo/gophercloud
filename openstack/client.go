@@ -278,7 +278,9 @@ func NewBlockStorageV1(client *gophercloud.ProviderClient, eo gophercloud.Endpoi
 	if err != nil {
 		return nil, err
 	}
-	return &gophercloud.ServiceClient{ProviderClient: client, Endpoint: url}, nil
+	return &gophercloud.ServiceClient{ProviderClient: client,
+		Endpoint:     url,
+		ResourceBase: url + "v2/"}, nil
 }
 
 // NewCDNV1 creates a ServiceClient that may be used to access the OpenStack v1
