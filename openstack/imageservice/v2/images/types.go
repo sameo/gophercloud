@@ -29,4 +29,8 @@ const (
 	ImageVisibilityPublic ImageVisibility = "public"
 	// ImageVisibilityPrivate users with tenantId == tenantId(owner)
 	ImageVisibilityPrivate ImageVisibility = "private"
+	// ImageVisibilityShared introduced with community images support
+	ImageVisibilityShared ImageVisibility = "shared"
+	// ImageVisibilityComunity introduced with community images support
+	ImageVisibilityComunity ImageVisibility = "comunity"
 )
