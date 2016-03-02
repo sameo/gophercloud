@@ -166,7 +166,10 @@ func TestMemberUpdateSuccessfully(t *testing.T) {
 
 	counter := HandleImageMemberUpdate(t)
 	im, err := Update(fakeclient.ServiceClient(), "da3b75d9-3f4a-40e7-8a2c-bfab23927dea",
-		"8989447062e04a818baf9e073fd04fa7", "accepted").Extract()
+		"8989447062e04a818baf9e073fd04fa7",
+		UpdateOpts{
+			Status: "accepted",
+		}).Extract()
 	th.AssertEquals(t, 1, counter.Counter)
 	th.AssertNoErr(t, err)
 
