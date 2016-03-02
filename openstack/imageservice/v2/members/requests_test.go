@@ -3,10 +3,14 @@ package members
 import (
 	"strings"
 	"testing"
+	"time"
 
 	th "github.com/rackspace/gophercloud/testhelper"
 	fakeclient "github.com/rackspace/gophercloud/testhelper/client"
 )
+
+const createdAtString = "2013-09-20T19:22:19Z"
+const updatedAtString = "2013-09-20T19:25:31Z"
 
 func TestCreateMemberSuccessfully(t *testing.T) {
 	th.SetupHTTP()
@@ -17,13 +21,19 @@ func TestCreateMemberSuccessfully(t *testing.T) {
 		"8989447062e04a818baf9e073fd04fa7").Extract()
 	th.AssertNoErr(t, err)
 
+	createdAt, err := time.Parse(time.RFC3339, createdAtString)
+	th.AssertNoErr(t, err)
+
+	updatedAt, err := time.Parse(time.RFC3339, updatedAtString)
+	th.AssertNoErr(t, err)
+
 	th.AssertDeepEquals(t, ImageMember{
-		CreatedAt: "2013-09-20T19:22:19Z",
+		CreatedAt: createdAt,
 		ImageID:   "da3b75d9-3f4a-40e7-8a2c-bfab23927dea",
 		MemberID:  "8989447062e04a818baf9e073fd04fa7",
 		Schema:    "/v2/schemas/member",
 		Status:    "pending",
-		UpdatedAt: "2013-09-20T19:25:31Z",
+		UpdatedAt: updatedAt,
 	}, *im)
 
 }
@@ -102,13 +112,19 @@ func TestShowMemberDetails(t *testing.T) {
 	th.AssertNoErr(t, err)
 	th.AssertNotNil(t, md)
 
+	createdAt, err := time.Parse(time.RFC3339, createdAtString)
+	th.AssertNoErr(t, err)
+
+	updatedAt, err := time.Parse(time.RFC3339, createdAtString)
+	th.AssertNoErr(t, err)
+
 	th.AssertDeepEquals(t, ImageMember{
-		CreatedAt: "2013-11-26T07:21:21Z",
+		CreatedAt: createdAt,
 		ImageID:   "da3b75d9-3f4a-40e7-8a2c-bfab23927dea",
 		MemberID:  "8989447062e04a818baf9e073fd04fa7",
 		Schema:    "/v2/schemas/member",
 		Status:    "pending",
-		UpdatedAt: "2013-11-26T07:21:21Z",
+		UpdatedAt: updatedAt,
 	}, *md)
 }
 
@@ -154,13 +170,19 @@ func TestMemberUpdateSuccessfully(t *testing.T) {
 	th.AssertEquals(t, 1, counter.Counter)
 	th.AssertNoErr(t, err)
 
+	createdAt, err := time.Parse(time.RFC3339, createdAtString)
+	th.AssertNoErr(t, err)
+
+	updatedAt, err := time.Parse(time.RFC3339, createdAtString)
+	th.AssertNoErr(t, err)
+
 	th.AssertDeepEquals(t, ImageMember{
-		CreatedAt: "2013-11-26T07:21:21Z",
+		CreatedAt: createdAt,
 		ImageID:   "da3b75d9-3f4a-40e7-8a2c-bfab23927dea",
 		MemberID:  "8989447062e04a818baf9e073fd04fa7",
 		Schema:    "/v2/schemas/member",
 		Status:    "accepted",
-		UpdatedAt: "2013-11-26T07:21:21Z",
+		UpdatedAt: updatedAt,
 	}, *im)
 
 }
