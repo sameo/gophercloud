@@ -85,7 +85,7 @@ func TestMemberListSuccessfully(t *testing.T) {
 	images, err := List(fakeclient.ServiceClient(), "da3b75d9-3f4a-40e7-8a2c-bfab23927dea").Extract()
 	th.AssertNoErr(t, err)
 	th.AssertNotNil(t, images)
-	th.AssertEquals(t, 2, len(*images))
+	th.AssertEquals(t, 2, len(images))
 }
 
 func TestMemberListEmpty(t *testing.T) {
@@ -97,7 +97,7 @@ func TestMemberListEmpty(t *testing.T) {
 	images, err := List(fakeclient.ServiceClient(), "da3b75d9-3f4a-40e7-8a2c-bfab23927dea").Extract()
 	th.AssertNoErr(t, err)
 	th.AssertNotNil(t, images)
-	th.AssertEquals(t, 0, len(*images))
+	th.AssertEquals(t, 0, len(images))
 }
 
 func TestShowMemberDetails(t *testing.T) {
