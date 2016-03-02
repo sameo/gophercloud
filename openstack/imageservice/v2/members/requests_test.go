@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/rackspace/gophercloud/pagination"
 	th "github.com/rackspace/gophercloud/testhelper"
 	fakeclient "github.com/rackspace/gophercloud/testhelper/client"
 )
@@ -82,10 +83,28 @@ func TestMemberListSuccessfully(t *testing.T) {
 
 	HandleImageMemberList(t)
 
-	images, err := List(fakeclient.ServiceClient(), "da3b75d9-3f4a-40e7-8a2c-bfab23927dea").Extract()
+	pager := List(fakeclient.ServiceClient(), "da3b75d9-3f4a-40e7-8a2c-bfab23927dea")
+	t.Logf("Pager state %v", pager)
+	count, pages := 0, 0
+	err := pager.EachPage(func(page pagination.Page) (bool, error) {
+		pages++
+		t.Logf("Page %v", page)
+		members, err := ExtractMembers(page)
+		if err != nil {
+			return false, err
+		}
+
+		for _, i := range members {
+			t.Logf("%s\t%s\t%s\t%s\t\n", i.ImageID, i.MemberID, i.Status, i.Schema)
+			count++
+		}
+
+		return true, nil
+	})
+
 	th.AssertNoErr(t, err)
-	th.AssertNotNil(t, images)
-	th.AssertEquals(t, 2, len(images))
+	th.AssertEquals(t, 1, pages)
+	th.AssertEquals(t, 2, count)
 }
 
 func TestMemberListEmpty(t *testing.T) {
@@ -94,10 +113,28 @@ func TestMemberListEmpty(t *testing.T) {
 
 	HandleImageMemberEmptyList(t)
 
-	images, err := List(fakeclient.ServiceClient(), "da3b75d9-3f4a-40e7-8a2c-bfab23927dea").Extract()
+	pager := List(fakeclient.ServiceClient(), "da3b75d9-3f4a-40e7-8a2c-bfab23927dea")
+	t.Logf("Pager state %v", pager)
+	count, pages := 0, 0
+	err := pager.EachPage(func(page pagination.Page) (bool, error) {
+		pages++
+		t.Logf("Page %v", page)
+		members, err := ExtractMembers(page)
+		if err != nil {
+			return false, err
+		}
+
+		for _, i := range members {
+			t.Logf("%s\t%s\t%s\t%s\t\n", i.ImageID, i.MemberID, i.Status, i.Schema)
+			count++
+		}
+
+		return true, nil
+	})
+
 	th.AssertNoErr(t, err)
-	th.AssertNotNil(t, images)
-	th.AssertEquals(t, 0, len(images))
+	th.AssertEquals(t, 0, pages)
+	th.AssertEquals(t, 0, count)
 }
 
 func TestShowMemberDetails(t *testing.T) {
