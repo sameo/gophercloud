@@ -228,7 +228,7 @@ type UpdateVisibility struct {
 // ToImagePatchMap builder
 func (u UpdateVisibility) ToImagePatchMap() map[string]interface{} {
 	m := map[string]interface{}{}
-	m["op"] = "relace"
+	m["op"] = "replace"
 	m["path"] = "/visibility"
 	m["value"] = u.Visibility
 	return m
